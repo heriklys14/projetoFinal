@@ -1,0 +1,24 @@
+<po-page-list
+    [p-actions]="actions"
+    [p-breadcrumb]="breadCrumb"    
+    p-title="Visualização de Tarefas" >
+
+    <div class="po-row">
+        <div class="po-md-6" *ngFor="let tarefa of models">
+            <po-widget                
+                p-height="300"
+                p-primary-label="Editar"
+                p-secondary-label="Excluir"
+                p-title="Projeto: {{tarefa.projeto.descricao}} - {{tarefa.data | date:'dd/MM/yyyy'}}"
+                (p-primary-action)="Editar(tarefa)"
+                (p-secondary-action)="Excluir(tarefa)"                
+            >
+            <po-info                 
+                p-label="Tarefa: {{tarefa.codigo}} - {{tarefa.descricao}}" 
+                [p-value]="value"
+            > </po-info>
+            </po-widget>
+        </div>        
+      </div>
+        
+</po-page-list>

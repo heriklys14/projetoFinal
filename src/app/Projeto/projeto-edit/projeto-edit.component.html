@@ -1,0 +1,31 @@
+<po-page-edit
+    [p-breadcrumb]="breadCrumb"    
+    [p-disable-submit]="!this.formulario.valid"    
+    (p-save)="onSubmit()"    
+    p-title="{{ getTittle() }}" >
+
+
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()">  
+      <div class="po-row">
+        <po-input
+          class="po-md-4"
+          formControlName="codigo"
+          p-clean
+          p-label="Código"
+        >
+        </po-input>
+      </div>
+
+      <div class="po-row">
+        <po-input
+          class="po-md-12"
+          formControlName="descricao"
+          p-clean
+          p-label="Descrição"
+        >
+        </po-input>
+      </div>       
+    </form>
+</po-page-edit>
+
+

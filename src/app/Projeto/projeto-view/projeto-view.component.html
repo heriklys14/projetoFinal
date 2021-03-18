@@ -1,0 +1,14 @@
+<po-page-list
+    [p-actions]="actions"
+    [p-breadcrumb]="breadCrumb"    
+    p-title="Visualização de Projetos" >
+
+    <po-table
+        p-sort="true"
+        p-selectable
+        p-single-select
+        [p-columns]="colunasView"                    
+        [p-items]="models"        
+    >
+    </po-table>
+</po-page-list>
