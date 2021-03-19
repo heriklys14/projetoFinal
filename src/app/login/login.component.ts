@@ -9,15 +9,15 @@ import { Router } from '@angular/router';
 
 export class LoginComponent implements OnInit {
 
-  constructor(private router : Router) {       
-  }  
+  constructor(private router: Router) {
+  }
 
-  private itemKey : string = 'authUser';
-  
+  private itemKey = 'authUser';
+
   ngOnInit(): void {
   }
 
-  public Logar() : void
+  public Logar(): void
   {
     window.localStorage.setItem(this.itemKey, 'LOGADO');
 

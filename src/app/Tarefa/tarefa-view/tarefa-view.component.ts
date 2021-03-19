@@ -13,36 +13,36 @@ import { TarefaService } from '../tarefa.service';
 })
 
 export class TarefaViewComponent extends BaseViewComponent<Tarefa> implements OnInit {
-  
-  constructor(protected router: Router,              
+
+  constructor(protected router: Router,
               protected poNotification: PoNotificationService,
-              protected service : TarefaService) { 
+              protected service: TarefaService) {
 
                 super(router, poNotification, service);
               }
 
 
   ngOnInit(): void {
-    super.ngOnInit();    
-  }  
+    super.ngOnInit();
+  }
 
   protected GetActions(): PoPageAction[] {
     return [
-      {label: "Incluir", action: () => this.router.navigate(['tarefas', 'new'])}    
+      {label: 'Incluir', action: () => this.router.navigate(['tarefas', 'new'])}
     ];
   }
 
   protected GetBreadCrumb(): PoBreadcrumb {
     return {
       items: [
-        { label: "Home", link: '/' },
-        { label: "Visualização de Tarefas"}
+        { label: 'Home', link: '/' },
+        { label: 'Visualização de Tarefas'}
       ]
-    }
-  }   
+    };
+  }
 
-  Editar(tarefa: Tarefa) {
+  Editar(tarefa: Tarefa): void {
     console.log(tarefa);
     this.router.navigate([`tarefas/edit/${tarefa.codigo}`]);
-  }  
+  }
 }

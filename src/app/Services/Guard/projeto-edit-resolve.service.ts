@@ -13,13 +13,13 @@ export class ProjetoEditResolveService implements Resolve<Projeto> {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl: string = 'https://localhost:44350/api/projetos';
+  private apiUrl = 'https://localhost:44350/api/projetos';
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): 
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
           Projeto | Observable<Projeto> | Promise<Projeto> {
-    
-    
-    let projetoId : string = route.params["id"];
+
+
+    const projetoId: string = route.params.id;
     return this.http.get<Projeto>(this.apiUrl + `/${projetoId}`);
   }
 }

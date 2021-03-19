@@ -6,10 +6,10 @@ import { DataAccessService } from '../dataAccess/data-access.service';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class ModelServiceService {  
+export abstract class ModelServiceService {
 
   constructor(
-    protected dataAccess : DataAccessService
+    protected dataAccess: DataAccessService
   ) { }
 
   private url: string = this.GetApiUrl();

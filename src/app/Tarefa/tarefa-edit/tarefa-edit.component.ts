@@ -22,16 +22,16 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
               private formBuilder: FormBuilder,
               private route: ActivatedRoute) { }
 
-  private apiUrl: string = 'https://localhost:44350/api/tarefas';
-  private apiUrlProjetos: string = 'https://localhost:44350/api/projetos';
-  public formulario : FormGroup;
-  private teveAlteracao: boolean = false;
+  private apiUrl = 'https://localhost:44350/api/tarefas';
+  private apiUrlProjetos = 'https://localhost:44350/api/projetos';
+  public formulario: FormGroup;
+  private teveAlteracao = false;
   public listProjetos = new Array<Projeto>();
-  
-  //reactiveForm
+
+  // reactiveForm
   ngOnInit(): void {
     this.GetListaProjetos();
-    
+
     this.formulario = this.formBuilder.group({
       codigo: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(5)]],
       titulo: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
@@ -42,38 +42,40 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
     });
   }
 
-  public onSubmit() : void
-  {        
+  public onSubmit(): void
+  {
     const id = this.route.snapshot.paramMap.get('id');
 
-    if(this.formulario.valid)
+    if (this.formulario.valid)
     {
-      if(id != null)
+      if (id != null) {
         this.Alterar();
-      else
+      }
+      else {
         this.Incluir();
+      }
     }
     else
     {
-      let propriedades = Object.keys(this.formulario.controls);
+      const propriedades = Object.keys(this.formulario.controls);
       propriedades.forEach(propriedade => {
-        let controle = this.formulario.get(propriedade);
-        if(!controle.valid)
+        const controle = this.formulario.get(propriedade);
+        if (!controle.valid)
         {
           controle.markAsTouched();
         }
       });
     }
-  }  
+  }
 
-  public Incluir() {
-    console.log("Incluir");
-      if (!this.formulario.value.codigo || !this.formulario.value.descricao) {
+  public Incluir(): void  {
+    console.log('Incluir');
+    if (!this.formulario.value.codigo || !this.formulario.value.descricao) {
         this.toastr.error(`Código e descrição devem ser preenchidos.`);
         return;
       }
 
-      this.http.post<Tarefa>(this.apiUrl, this.formulario.value)
+    this.http.post<Tarefa>(this.apiUrl, this.formulario.value)
         .subscribe(registro => {
           this.toastr.success(`Tarefa ${registro.codigo} criada com sucesso.`);
           this.router.navigate(['tarefas']);
@@ -83,14 +85,14 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
           });
   }
 
-  public Alterar() {  
-    console.log("Alterar");
-      if (!this.formulario.value.codigo || !this.formulario.value.descricao) {
+  public Alterar(): void{
+    console.log('Alterar');
+    if (!this.formulario.value.codigo || !this.formulario.value.descricao) {
         this.toastr.error(`Código e descrição devem ser preenchidos.`);
         return;
-      } 
+      }
 
-      this.http.put<Tarefa>(this.apiUrl + `/${this.formulario.value.codigo}`, this.formulario.value)
+    this.http.put<Tarefa>(this.apiUrl + `/${this.formulario.value.codigo}`, this.formulario.value)
       .subscribe(registro => {
         this.toastr.success(`Tarefa ${registro.codigo} alterado com sucesso.`);
         this.router.navigate(['tarefas']);
@@ -100,7 +102,7 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
         });
   }
 
-  public GetTarefa() {
+  public GetTarefa(): void{
     const tarefaId = this.route.snapshot.paramMap.get('id');
 
     this.http.get<Tarefa>(this.apiUrl + `/${tarefaId}`)
@@ -112,7 +114,7 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
       );
   }
 
-  public GetListaProjetos() {
+  public GetListaProjetos(): void{
     this.http.get<Projeto[]>(this.apiUrlProjetos)
       .subscribe(objetos => {
         this.listProjetos = objetos.map(x => Object.assign(new Projeto(null, null), x));
@@ -121,9 +123,9 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
       );
   }
 
-  Alteracao(){
+  Alteracao(): void{
     this.teveAlteracao = true;
-    console.log("Alteracao: " + this.teveAlteracao);
+    console.log('Alteracao: ' + this.teveAlteracao);
   }
 
   canDeactivate(): boolean {

@@ -6,14 +6,14 @@ import { DataAccessService } from '../Services/dataAccess/data-access.service';
   providedIn: 'root'
 })
 export class ProjetoService extends ModelServiceService {
-  
+
   constructor(
-    protected dataAccess : DataAccessService
+    protected dataAccess: DataAccessService
   ) {
     super(dataAccess);
    }
 
    protected GetApiUrl(): string {
-    return 'https://localhost:44350/api/projetos';
-  }  
+    return 'https://localhost:44350/api/projetos/';
+  }
 }

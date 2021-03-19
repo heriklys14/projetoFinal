@@ -1,4 +1,4 @@
 export interface ComponentBase
-{    
-    canDeactivate() : boolean;
+{
+    canDeactivate(): boolean;
 }

@@ -25,7 +25,7 @@ import { TarefaService } from './Tarefa/tarefa.service';
   declarations: [
     AppComponent,
     ProjetoEditComponent,
-    ProjetoViewComponent,    
+    ProjetoViewComponent,
     TarefaViewComponent,
     TarefaEditComponent,
     LoginComponent

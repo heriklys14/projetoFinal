@@ -4,39 +4,39 @@ import { PoBreadcrumb, PoNotificationService, PoPageAction, PoTableColumn } from
 import { ModelBase } from 'src/app/Models/base/modelBase';
 import { ModelServiceService } from 'src/app/Services/Base/model-service.service';
 
-@Component({  
-  template: '',  
+@Component({
+  template: '',
 })
-export abstract class BaseViewComponent<T extends ModelBase> implements OnInit {  
-  constructor(protected router: Router,              
-              protected poNotification :  PoNotificationService,
-              protected service : ModelServiceService
+export abstract class BaseViewComponent<T extends ModelBase> implements OnInit {
+  constructor(protected router: Router,
+              protected poNotification: PoNotificationService,
+              protected service: ModelServiceService
               ) { }
+
+  public models = new Array<T>();
+
+  public actions: Array<PoPageAction> = this.GetActions();
+
+  public readonly breadCrumb: PoBreadcrumb = this.GetBreadCrumb();
 
   ngOnInit(): void {
     this.Read();
   }
 
-  public models = new Array<T>();  
+  protected abstract GetActions(): PoPageAction[];
 
-  public actions : Array<PoPageAction> = this.GetActions();
+  protected abstract GetBreadCrumb(): PoBreadcrumb;
 
-  public readonly breadCrumb : PoBreadcrumb = this.GetBreadCrumb();  
-
-  protected abstract GetActions(): PoPageAction[];  
-
-  protected abstract GetBreadCrumb(): PoBreadcrumb;      
-
-  private Read() {
+  private Read(): void{
     this.service.getAll()
       .subscribe(objetos => {
-        this.models = objetos.map(x => <T>x);
+        this.models = objetos.map(x => x as T);
       },
         error => console.log(error)
       );
-  }  
+  }
 
-  public Excluir(model: T) {
+  public Excluir(model: T): void{
     this.service.delete(model.codigo)
       .subscribe(registro => {
         this.poNotification.success(`Registro '${registro.codigo}' excluido com sucesso.`);

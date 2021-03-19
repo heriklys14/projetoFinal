@@ -20,12 +20,21 @@ export class ProjetoEditComponent implements ComponentBase, OnInit {
               private toastr: ToastrService,
               private router: Router,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder) { }    
-  
-  private apiUrl: string = 'https://localhost:44350/api/projetos';
-  public formulario : FormGroup;
-  private isNew: boolean = true;
-  private teveAlteracao: boolean = false;
+              private formBuilder: FormBuilder) { }
+
+  private apiUrl = 'https://localhost:44350/api/projetos/';
+  public formulario: FormGroup;
+  private isNew = true;
+  private teveAlteracao = false;
+
+  public readonly breadCrumb: PoBreadcrumb =
+  {
+    items: [
+      { label: 'Home', link: '/' },
+      { label: 'Visualização de Projetos', link: '/projetos'},
+      { label: this.getTittle()},
+    ]
+  };
 
   ngOnInit(): void {
     this.formulario = this.formBuilder.group({
@@ -36,45 +45,38 @@ export class ProjetoEditComponent implements ComponentBase, OnInit {
 
     this.GetProjeto();
   }
-  
-  public readonly breadCrumb : PoBreadcrumb =
-  {
-    items: [
-      { label: "Home", link: '/' },
-      { label: "Visualização de Projetos", link:'/projetos'},
-      { label: this.getTittle()},
-    ]
-  }
 
-  public getTittle() : string 
+  public getTittle(): string
   {
     return 'Edição de Projeto';
   }
 
-  public onSubmit() : void
-  {    
+  public onSubmit(): void
+  {
     console.log(this.formulario.value);
-    if(this.formulario.valid)
+    if (this.formulario.valid)
     {
-      if(!this.isNew)
+      if (!this.isNew) {
         this.Alterar();
-      else
+      }
+      else {
         this.Incluir();
+      }
     }
     else
     {
-      let propriedades = Object.keys(this.formulario.controls);
+      const propriedades = Object.keys(this.formulario.controls);
       propriedades.forEach(propriedade => {
-        let controle = this.formulario.get(propriedade);
-        if(!controle.valid)
+        const controle = this.formulario.get(propriedade);
+        if (!controle.valid)
         {
           controle.markAsTouched();
         }
       });
     }
-  }  
+  }
 
-  public Alterar() {    
+  public Alterar(): void {
     this.http.put<Projeto>(this.apiUrl + `/${this.formulario.value.codigo}`, this.formulario.value)
       .subscribe(registro => {
         this.toastr.success(`Projeto ${registro.codigo} alterado com sucesso.`);
@@ -85,7 +87,7 @@ export class ProjetoEditComponent implements ComponentBase, OnInit {
         });
   }
 
-  public Incluir() {
+  public Incluir(): void {
     this.http.post<Projeto>(this.apiUrl, this.formulario.value)
       .subscribe(registro => {
         this.toastr.success(`Projeto ${registro.codigo} criado com sucesso.`);
@@ -96,10 +98,10 @@ export class ProjetoEditComponent implements ComponentBase, OnInit {
         });
   }
 
-  public GetProjeto(){
+  public GetProjeto(): void{
      this.route.data.subscribe(
       (info: { registro: Projeto}) => {
-        if(info.registro)
+        if (info.registro)
         {
           this.isNew = false;
           this.formulario.setValue(info.registro);
@@ -107,9 +109,8 @@ export class ProjetoEditComponent implements ComponentBase, OnInit {
       });
   }
 
-  Alteracao(){
+  Alteracao(): void{
     this.teveAlteracao = true;
-    console.log("Alteracao: " + this.teveAlteracao);
   }
 
   canDeactivate(): boolean {

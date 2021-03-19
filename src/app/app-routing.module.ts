@@ -10,43 +10,43 @@ import { AuthGuardService } from './Services/Guard/auth-guard.service';
 import { ProjetoEditResolveService } from './Services/Guard/projeto-edit-resolve.service';
 
 const routes: Routes = [
-  { 
-    path: 'login', 
-    component: LoginComponent 
+  {
+    path: 'login',
+    component: LoginComponent
   },
-  {     
-    path: 'projetos', 
+  {
+    path: 'projetos',
     component: ProjetoViewComponent,
     canActivate: [AuthGuardService]
   },
-  { 
-    path: 'projetos/new',     
+  {
+    path: 'projetos/new',
     component: ProjetoEditComponent,
     canActivate: [AuthGuardService],
     canDeactivate: [AuthGuardService]
   },
-  { 
-    path: 'projetos/edit/:id', 
+  {
+    path: 'projetos/edit/:id',
     component: ProjetoEditComponent,
     canActivate: [AuthGuardService],
     canDeactivate: [AuthGuardService],
     resolve: { registro: ProjetoEditResolveService }
   },
-  { 
-    path: 'tarefas', 
+  {
+    path: 'tarefas',
     component: TarefaViewComponent,
     canActivate: [AuthGuardService]
   },
-  { 
-    path: 'tarefas/new', 
+  {
+    path: 'tarefas/new',
     component: TarefaEditComponent,
-    canActivate: [AuthGuardService],    
+    canActivate: [AuthGuardService],
     canDeactivate: [AuthGuardService]
   },
-  { 
-    path: 'tarefas/edit/:id', 
+  {
+    path: 'tarefas/edit/:id',
     component: TarefaEditComponent,
-    canActivate: [AuthGuardService],    
+    canActivate: [AuthGuardService],
     canDeactivate: [AuthGuardService]
   },
 ];

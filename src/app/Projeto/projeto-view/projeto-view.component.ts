@@ -13,71 +13,74 @@ import { ProjetoService } from '../projeto.service';
 })
 
 export class ProjetoViewComponent extends BaseViewComponent<Projeto> implements OnInit {
-    
-  constructor(protected router: Router,              
-              protected poNotification :  PoNotificationService,
-              protected service: ProjetoService) 
+
+  constructor(protected router: Router,
+              protected poNotification: PoNotificationService,
+              protected service: ProjetoService)
               {
                 super(router, poNotification, service);
               }
 
+  public readonly colunasView: Array<PoTableColumn> = [
+    { label: 'Código', property: 'codigo' },
+    { label: 'Descrição', property: 'descricao' }
+  ];
+
   ngOnInit(): void {
     super.ngOnInit();
-  }    
+  }
 
   protected GetActions(): PoPageAction[] {
     return [
-      {label: "Incluir", action: () => this.router.navigate(['projetos', 'new'])},
-      {label: "Editar", action: this.editarRegistro.bind(this)},
-      {label: "Excluir", action: this.excluirRegistro.bind(this)}
+      {label: 'Incluir', action: () => this.router.navigate(['projetos', 'new'])},
+      {label: 'Editar', action: this.editarRegistro.bind(this)},
+      {label: 'Excluir', action: this.excluirRegistro.bind(this)}
     ];
-  }  
+  }
 
   protected GetBreadCrumb(): PoBreadcrumb {
     return  {
       items: [
-        { label: "Home", link: '/' },
-        { label: "Visualização de Projetos"}
+        { label: 'Home', link: '/' },
+        { label: 'Visualização de Projetos'}
       ]
     };
-  } 
+  }
 
-  public readonly colunasView : Array<PoTableColumn> = [
-    { label: "Código", property: 'codigo' },
-    { label: "Descrição", property: 'descricao' }
-  ]
-
-  private editarRegistro() : void
+  private editarRegistro(): void
   {
-    let projetoSelecionado = this.getProjetoSelecionado();
+    const projetoSelecionado = this.getProjetoSelecionado();
 
-    if(!projetoSelecionado)
+    if (!projetoSelecionado) {
       this.poNotification.warning('Selecione um registro');
-    else
+    }
+    else {
       this.Editar(projetoSelecionado);
+    }
   }
 
-  private excluirRegistro() : void
+  private excluirRegistro(): void
   {
-    let projetoSelecionado = this.getProjetoSelecionado();
+    const projetoSelecionado = this.getProjetoSelecionado();
 
-    if(!projetoSelecionado)
+    if (!projetoSelecionado) {
       this.poNotification.warning('Selecione um registro');
-    else
+    }
+    else {
       this.Excluir(projetoSelecionado);
+    }
   }
 
-  private getProjetoSelecionado() : Projeto
+  private getProjetoSelecionado(): Projeto
   {
-    return this.models.find(x => x['$selected']);
+    return this.models.find(x => x.$selected);
   }
 
-  public Incluir() {
+  public Incluir(): void {
     this.router.navigate(['projetos', 'new']);
   }
 
-  public Editar(projeto: Projeto) {
-    console.log(projeto);
+  public Editar(projeto: Projeto): void{
     this.router.navigate([`projetos/edit/${projeto.codigo}`]);
-  }  
+  }
 }

@@ -8,15 +8,15 @@ import { DataAccessService } from '../Services/dataAccess/data-access.service';
   providedIn: 'root'
 })
 export class TarefaService extends ModelServiceService {
- 
+
   constructor(
-    protected dataAccess : DataAccessService
+    protected dataAccess: DataAccessService
   ) {
     super(dataAccess);
    }
 
    protected GetApiUrl(): string {
-    return 'https://localhost:44350/api/tarefas';
+    return 'https://localhost:44350/api/tarefas/';
   }
-  
+
 }

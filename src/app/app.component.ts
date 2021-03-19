@@ -9,21 +9,21 @@ import { PoMenuItem } from '@po-ui/ng-components';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
-  constructor(private router : Router) {    
-    
+
+  constructor(private router: Router) {
+
   }
 
   readonly menus: Array<PoMenuItem> = [
-    { label: 'Home', link: '/', icon:'po-icon po-icon-home', shortLabel:'Home' },
-    { label: 'Projetos', link: '/projetos', icon:'po-icon po-icon-layers', shortLabel: 'Projetos' }, 
+    { label: 'Home', link: '/', icon: 'po-icon po-icon-home', shortLabel: 'Home' },
+    { label: 'Projetos', link: '/projetos', icon: 'po-icon po-icon-layers', shortLabel: 'Projetos' },
     { label: 'Tarefas', link: '/tarefas', icon: 'po-icon po-icon-like', shortLabel: 'Tarefas' },
-    { label: 'Logout', action: this.logout.bind(this), icon:'po-icon po-icon-exit', shortLabel: 'Logout' }
+    { label: 'Logout', action: this.logout.bind(this), icon: 'po-icon po-icon-exit', shortLabel: 'Logout' }
   ];
-  
-  private itemKey : string = "authUser";
 
-  private logout() {        
+  private itemKey = 'authUser';
+
+  private logout(): void {
     window.localStorage.removeItem(this.itemKey);
     this.router.navigate(['login']);
   }
