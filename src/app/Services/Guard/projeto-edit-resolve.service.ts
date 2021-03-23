@@ -8,7 +8,6 @@ import { Projeto } from 'src/app/Models/Projeto';
 @Injectable({
   providedIn: 'root'
 })
-
 export class ProjetoEditResolveService implements Resolve<Projeto> {
 
   constructor(private http: HttpClient) { }

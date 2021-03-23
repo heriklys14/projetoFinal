@@ -73,7 +73,7 @@ export class ProjetoViewComponent extends BaseViewComponent<Projeto> implements 
 
   private getProjetoSelecionado(): Projeto
   {
-    return this.models.find(x => x.$selected);
+    return this.models.find(x => x['$selected']);
   }
 
   public Incluir(): void {

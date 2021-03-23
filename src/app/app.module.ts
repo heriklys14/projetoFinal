@@ -20,6 +20,7 @@ import { RouterModule } from '@angular/router';
 import { DataAccessService } from './Services/dataAccess/data-access.service';
 import { ProjetoService } from './Projeto/projeto.service';
 import { TarefaService } from './Tarefa/tarefa.service';
+import { TarefaEditResolveService } from './Services/Guard/tarefa-edit-resolve.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TarefaService } from './Tarefa/tarefa.service';
   providers: [
     AuthGuardService,
     ProjetoEditResolveService,
+    TarefaEditResolveService,
     DataAccessService,
     ProjetoService,
     TarefaService

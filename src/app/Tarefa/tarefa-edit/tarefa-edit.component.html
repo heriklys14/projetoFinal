@@ -1,59 +1,70 @@
-<po-page-edit>
-<form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-
-    <div class="form-group">
-        <label for="codigo">Código</label>
-        <input type="text" class="form-control" id="codigo" formControlName="codigo" placeholder="001" (input)="Alteracao()">
+<po-page-edit
+  [p-breadcrumb]="breadCrumb"
+  [p-disable-submit]="!this.formulario.valid"
+  (p-save)="onSubmit()"
+  p-title="{{ getTitle() }}"
+>
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div class="po-row">
+      <po-input
+        class="po-md-4"
+        formControlName="codigo"
+        p-clean
+        p-label="Código"
+      ></po-input>
     </div>
 
-    <div class="form-group">
-        <label for="titulo" class="form-label">Título</label>
-        <input type="text" class="form-control" id="titulo" formControlName="titulo" placeholder="Título" (input)="Alteracao()">
-    </div> 
-
-    <div class="form-group">
-        <label for="data" class="form-label">Data</label>
-        <input type="text" class="form-control" id="data" formControlName="data" placeholder="06-15-2001" (input)="Alteracao()">
-    </div> 
-
-    <!-- <div class="form-group">
-        <label for="prioridade" class="form-label">Prioridade</label>
-        <input type="text" class="form-control" id="prioridade" formControlName="prioridade" placeholder="1" (input)="Alteracao()">
-    </div> -->
-
-    <div class="form-group">
-        <label for="prioridade">Prioridade</label>
-        <select class="form-control" id="prioridade" formControlName="prioridade" (input)="Alteracao()">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option> 
-          <option>4</option>
-          <option>5</option> 
-        </select>
+    <div class="po-row">
+      <po-input
+        class="po-md-4"
+        formControlName="titulo"
+        p-clean
+        p-label="Título"
+      ></po-input>
     </div>
 
-    <div class="form-group">
-        <label for="descricao" class="form-label">Descrição</label>
-        <input type="text" class="form-control" id="descricao" formControlName="descricao" placeholder="Descrição" (input)="Alteracao()">
-    </div> 
-
-    <div class="form-group">
-        <label for="projetoId">Projetos</label>
-        <select class="form-control" id="projetoId" formControlName="projetoId" (input)="Alteracao()">
-            <option *ngFor="let item of listProjetos" [ngValue]=item.codigo>
-                {{ item.codigo }} - {{ item.descricao }}
-            </option>
-        </select>
+    <div class="po-row">
+      <po-input
+        class="po-md-4"
+        formControlName="data"
+        p-clean
+        p-label="Data"
+      ></po-input>
     </div>
 
-    <div>
-        <p></p>
+    <div class="po-row">
+      <po-select
+        class="po-md-4"
+        formControlName="prioridade"
+        p-label="Prioridade"
+        p-clean
+        [p-options]="prioridadeSelectOptions"
+      >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </po-select>
     </div>
 
-    <div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <!-- <button type="button" class="btn btn-primary" (click)="Definir()">Salvar</button> -->
+    <div class="po-row">
+      <po-input
+        class="po-md-12"
+        formControlName="descricao"
+        p-clean
+        p-label="Descrição"
+      ></po-input>
     </div>
 
-</form>    
+    <div class="po-row">
+      <po-select
+        class="po-md-4"
+        formControlName="projetoId"
+        p-label="Projeto"
+        p-clean
+        [p-options]="projetoSelectOptions"
+      ></po-select>
+    </div>
+  </form>
 </po-page-edit>

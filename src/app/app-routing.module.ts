@@ -8,6 +8,7 @@ import { TarefaEditComponent } from './Tarefa/tarefa-edit/tarefa-edit.component'
 import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './Services/Guard/auth-guard.service';
 import { ProjetoEditResolveService } from './Services/Guard/projeto-edit-resolve.service';
+import { TarefaEditResolveService } from './Services/Guard/tarefa-edit-resolve.service';
 
 const routes: Routes = [
   {
@@ -47,7 +48,8 @@ const routes: Routes = [
     path: 'tarefas/edit/:id',
     component: TarefaEditComponent,
     canActivate: [AuthGuardService],
-    canDeactivate: [AuthGuardService]
+    canDeactivate: [AuthGuardService],
+    resolve: {registro: TarefaEditResolveService}
   },
 ];
 
