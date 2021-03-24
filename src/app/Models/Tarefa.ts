@@ -7,9 +7,8 @@ export class Tarefa extends ModelBase {
     public data?: Date,
     public prioridade?: number,
     public descricao?: string,
-    public projeto?: string,
+    public projetoId?: string,
   ) {
     super(codigo)
   }
-  // public virtual Projeto Projeto { get; set; }
 }

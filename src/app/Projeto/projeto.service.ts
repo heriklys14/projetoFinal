@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
-import { ModelServiceService } from '../Services/Base/model-service.service';
-import { DataAccessService } from '../Services/dataAccess/data-access.service';
+import { Injectable } from '@angular/core'
+import { ModelServiceService } from '../Services/Base/model-service.service'
+import { DataAccessService } from '../Services/dataAccess/data-access.service'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjetoService extends ModelServiceService {
+  constructor(protected dataAccess: DataAccessService) {
+    super(dataAccess)
+  }
 
-  constructor(
-    protected dataAccess: DataAccessService
-  ) {
-    super(dataAccess);
-   }
+  protected GetApiUrl(): string {
+    return 'https://localhost:44350/api/projetos/'
+  }
 
-   protected GetApiUrl(): string {
-    return 'https://localhost:44350/api/projetos/';
+  protected GetNomeRota(): string {
+    return 'projetos'
   }
 }

@@ -1,9 +1,3 @@
-export abstract class ModelBase
-{
-    constructor(
-        public codigo?: string
-    )
-    {
-
-    }
+export abstract class ModelBase {
+  constructor(public codigo?: string) {}
 }

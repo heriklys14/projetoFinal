@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http'
+import { TarefaService } from './../tarefa.service'
+import { ProjetoService } from './../../Projeto/projeto.service'
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -8,26 +9,27 @@ import { ToastrService } from 'ngx-toastr'
 import { ComponentBase } from 'src/app/base/Component/base-component'
 import { Projeto } from 'src/app/Models/Projeto'
 import { Tarefa } from 'src/app/Models/Tarefa'
+import { BaseEditComponent } from 'src/app/Shared/Component/base-edit.component'
 
 @Component({
   selector: 'app-tarefa-edit',
   templateUrl: './tarefa-edit.component.html',
   styleUrls: ['./tarefa-edit.component.css'],
 })
-export class TarefaEditComponent implements ComponentBase, OnInit {
+export class TarefaEditComponent extends BaseEditComponent<Tarefa>
+  implements ComponentBase, OnInit {
   constructor(
-    private http: HttpClient,
-    private toastr: ToastrService,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-  ) {}
+    protected toastr: ToastrService,
+    protected router: Router,
+    protected formBuilder: FormBuilder,
+    protected route: ActivatedRoute,
+    protected projetoService: ProjetoService,
+    protected service: TarefaService,
+  ) {
+    super(toastr, router, route, service)
+  }
 
-  private apiUrl = 'https://localhost:44350/api/tarefas'
-  private apiUrlProjetos = 'https://localhost:44350/api/projetos'
   public formulario: FormGroup
-  private isNew = true
-  private teveAlteracao = false
   public listProjetos = new Array<Projeto>()
   public projetoSelectOptions = null
   public prioridadeSelectOptions: Array<PoSelectOption> = null
@@ -41,8 +43,11 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
   }
 
   ngOnInit(): void {
+    super.ngOnInit()
+  }
+
+  protected IniciaFormulario() {
     this.GetListaProjetos()
-    console.log(this.listProjetos)
 
     this.projetoSelectOptions = this.listProjetos
     this.prioridadeSelectOptions = [
@@ -69,10 +74,8 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
       data: [null, [Validators.required]],
       prioridade: [null, [Validators.required]],
       descricao: [null, [Validators.required]],
-      projetoId: [null, [Validators.required]],
+      projetoId: [null, []],
     })
-
-    this.GetTarefa()
   }
 
   public getTitle(): string {
@@ -80,63 +83,11 @@ export class TarefaEditComponent implements ComponentBase, OnInit {
   }
 
   public onSubmit(): void {
-    if (this.formulario.valid) {
-      if (!this.isNew) {
-        this.Alterar()
-      } else {
-        this.Incluir()
-      }
-    } else {
-      const propriedades = Object.keys(this.formulario.controls)
-      propriedades.forEach((propriedade) => {
-        const controle = this.formulario.get(propriedade)
-        if (!controle.valid) {
-          controle.markAsTouched()
-        }
-      })
-    }
-  }
-
-  public Incluir(): void {
-    this.http.post<Tarefa>(this.apiUrl, this.formulario.value).subscribe(
-      (registro) => {
-        this.toastr.success(`Tarefa ${registro.codigo} criada com sucesso.`)
-        this.router.navigate(['tarefas'])
-      },
-      (error) => {
-        console.log(error)
-      },
-    )
-  }
-
-  public Alterar(): void {
-    this.http
-      .put<Tarefa>(
-        this.apiUrl + `/${this.formulario.value.codigo}`,
-        this.formulario.value,
-      )
-      .subscribe(
-        (registro) => {
-          this.toastr.success(`Tarefa ${registro.codigo} alterado com sucesso.`)
-          this.router.navigate(['tarefas'])
-        },
-        (error) => {
-          console.log(error)
-        },
-      )
-  }
-
-  public GetTarefa(): void {
-    this.route.data.subscribe((info: { registro: Tarefa }) => {
-      if (info.registro) {
-        this.isNew = false
-        this.formulario.setValue(info.registro)
-      }
-    })
+    super.OnSubmit()
   }
 
   public GetListaProjetos(): void {
-    this.http.get<Array<Projeto>>(this.apiUrlProjetos).subscribe(
+    this.projetoService.getAll().subscribe(
       (objetos) => {
         this.listProjetos = objetos.map((x) => x as Projeto)
       },
