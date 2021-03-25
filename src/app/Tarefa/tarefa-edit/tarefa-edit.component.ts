@@ -31,8 +31,9 @@ export class TarefaEditComponent extends BaseEditComponent<Tarefa>
 
   public formulario: FormGroup
   public listProjetos = new Array<Projeto>()
-  public projetoSelectOptions = null
+  public projetoSelectOptions: Array<Projeto> = []
   public prioridadeSelectOptions: Array<PoSelectOption> = null
+  public Projeto: Projeto
 
   public readonly breadCrumb: PoBreadcrumb = {
     items: [
@@ -44,12 +45,12 @@ export class TarefaEditComponent extends BaseEditComponent<Tarefa>
 
   ngOnInit(): void {
     super.ngOnInit()
+    this.GetProjeto()
   }
 
   protected IniciaFormulario() {
     this.GetListaProjetos()
 
-    this.projetoSelectOptions = this.listProjetos
     this.prioridadeSelectOptions = [
       { value: '1', label: '1' },
       { value: '2', label: '2' },
@@ -74,7 +75,7 @@ export class TarefaEditComponent extends BaseEditComponent<Tarefa>
       data: [null, [Validators.required]],
       prioridade: [null, [Validators.required]],
       descricao: [null, [Validators.required]],
-      projetoId: [null, []],
+      projetoId: [null, [Validators.required]],
     })
   }
 
@@ -86,13 +87,25 @@ export class TarefaEditComponent extends BaseEditComponent<Tarefa>
     super.OnSubmit()
   }
 
-  public GetListaProjetos(): void {
+  async GetListaProjetos() {
     this.projetoService.getAll().subscribe(
-      (objetos) => {
-        this.listProjetos = objetos.map((x) => x as Projeto)
+      async (objetos) => {
+        await objetos.map((x: Projeto) =>
+          this.projetoSelectOptions.push(new Projeto(x.codigo, x.descricao)),
+        )
       },
       (error) => console.log(error),
     )
+  }
+
+  async GetProjeto() {
+    this.projetoService
+      .get((this.formulario.value as Tarefa).projetoId)
+      .subscribe(
+        async (x: Projeto) =>
+          await (this.Projeto = new Projeto(x.codigo, x.descricao)),
+        (error) => console.log(error),
+      )
   }
 
   Alteracao(): void {

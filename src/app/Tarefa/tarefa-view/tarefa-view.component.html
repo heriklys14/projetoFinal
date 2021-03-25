@@ -9,7 +9,9 @@
         p-height="300"
         p-primary-label="Editar"
         p-secondary-label="Excluir"
-        p-title="Projeto:  - {{ tarefa.data | date: 'dd/MM/yyyy' }}"
+        p-title="Projeto: {{ tarefa.projetoId }} - {{
+          tarefa.data | date: 'dd/MM/yyyy'
+        }}"
         (p-primary-action)="Editar(tarefa)"
         (p-secondary-action)="Excluir(tarefa)"
       >

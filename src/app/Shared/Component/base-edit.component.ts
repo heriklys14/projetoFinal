@@ -25,7 +25,7 @@ export abstract class BaseEditComponent<T extends ModelBase> implements OnInit {
   protected teveAlteracao = false
   public formulario: FormGroup
 
-  private GetRegistro() {
+  async GetRegistro() {
     this.route.data.subscribe((info: { registro: T }) => {
       if (info.registro) {
         this.isNew = false
